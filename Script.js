@@ -8,15 +8,12 @@ document.querySelectorAll('.square-button, .user-button, .dish-card').forEach(el
 // Effetto di rimbalzo al click sui pulsanti del menu
 document.querySelectorAll('.menu-button').forEach(button => {
     button.addEventListener('click', function() {
-        // Aggiungi l'effetto di rimbalzo
         this.classList.add('bounce');
         
-        // Rimuovi la classe active da tutti i pulsanti
         document.querySelectorAll('.menu-button').forEach(btn => {
             btn.classList.remove('active');
         });
         
-        // Aggiungi la classe active al pulsante cliccato
         this.classList.add('active');
         
         // Rimuovi la classe di bounce dopo l'animazione
@@ -25,10 +22,19 @@ document.querySelectorAll('.menu-button').forEach(button => {
         }, 400);
         
         // Gestione reindirizzamento per il pulsante Ricettario
+        if (this.id === 'homeButton') {
+            setTimeout(() => {
+                window.location.href = 'Home.html';
+            }, 300);
+        }
         if (this.id === 'bookButton') {
-            // Reindirizza alla pagina Riccetario.html dopo un breve ritardo
             setTimeout(() => {
                 window.location.href = 'Riccetario.html';
+            }, 300);
+        }
+        if (this.id === 'cameraButton') {
+            setTimeout(() => {
+                window.location.href = 'Scansione.html';
             }, 300);
         }
         
@@ -70,10 +76,10 @@ function updateDishes(dishesType) {
         }
     ];
     
-    // Array di ricette per dessert
+    // Array di ricette per dessert 
     const desserts = [
         {
-            icon: 'fas fa-birthday-cake',
+            icon: 'fas fa-wine-glass-alt',
             title: 'Tiramisù Classico',
             description: 'Il famoso dolce italiano a strati con savoiardi, caffè, mascarpone e cacao. Perfetto per concludere un pasto.'
         },
@@ -207,7 +213,10 @@ document.querySelectorAll('.dish-card').forEach(dish => {
     });
 });
 
-// Codice specifico per la pagina Ricettario
+
+/*------------------------------------------------------------------------------------------------------------------
+js specifico per ricettario.html
+-------------------------------------------------------------------------------------------------------------------*/
 document.addEventListener('DOMContentLoaded', function() {
     // Verifica se siamo nella pagina Ricettario
     if (document.querySelector('.ricettario-container')) {
@@ -261,4 +270,208 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+});
+
+
+/*------------------------------------------------------------------------------------------------------------------
+js specifico per scansiona.html
+-------------------------------------------------------------------------------------------------------------------*/
+document.addEventListener('DOMContentLoaded', function() {
+console.log('Pagina Scansione caricata');
+
+let html5QrCode;
+let scansioneAttiva = false;
+
+// Elementi DOM
+const uploadBtn = document.getElementById('uploadBtn');
+const scansioneStatus = document.getElementById('scansioneStatus');
+const risultatoScansione = document.getElementById('risultatoScansione');
+const risultatoTesto = document.getElementById('risultatoTesto');
+const storiaButton = document.getElementById('storiaButton');
+
+// Configurazione scanner
+const config = {
+    fps: 10,
+    qrbox: { width: 250, height: 250 },
+    rememberLastUsedCamera: true,
+    supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
+};
+
+// Inizializza scanner
+html5QrCode = new Html5Qrcode("reader");
+
+// Funzione per avviare la scansione (automatica)
+function avviaScansione() {
+    if (scansioneAttiva) return;
+    
+    Html5Qrcode.getCameras().then(devices => {
+        if (devices && devices.length) {
+            // Usa la fotocamera posteriore se disponibile
+            let cameraId = devices[0].id;
+            const backCamera = devices.find(device => 
+                device.label.toLowerCase().includes('back') || 
+                device.label.toLowerCase().includes('rear'));
+            
+            if (backCamera) {
+                cameraId = backCamera.id;
+            }
+            
+            html5QrCode.start(
+                cameraId,
+                config,
+                onScanSuccess,
+                onScanFailure
+            ).then(() => {
+                scansioneAttiva = true;
+                scansioneStatus.style.display = 'flex';
+                console.log('Scansione avviata automaticamente');
+            }).catch(err => {
+                console.error("Errore nell'avviare la scansione:", err);
+                alert("Impossibile accedere alla fotocamera. Controlla i permessi.");
+            });
+        } else {
+            alert("Nessuna fotocamera trovata sul dispositivo.");
+        }
+    }).catch(err => {
+        console.error("Errore nel recuperare le fotocamere:", err);
+        alert("Errore nell'accesso alla fotocamera.");
+    });
+}
+
+// Funzione per fermare la scansione (solo per cambio pagina)
+function fermaScansione() {
+    if (!scansioneAttiva) return;
+    
+    html5QrCode.stop().then(() => {
+        scansioneAttiva = false;
+        scansioneStatus.style.display = 'none';
+        console.log('Scansione fermata');
+    }).catch(err => {
+        console.error("Errore nel fermare la scansione:", err);
+    });
+}
+
+// Callback per scansione riuscita
+function onScanSuccess(decodedText, decodedResult) {
+    console.log(`Codice scansionato: ${decodedText}`);
+    
+    // Mostra il risultato
+    risultatoTesto.textContent = decodedText;
+    risultatoScansione.style.display = 'block';
+    
+    // Simula ricerca ricette dal codice a barre
+    setTimeout(() => {
+        simulaRicercaRicette(decodedText);
+    }, 1000);
+    
+    // La scansione rimane attiva automaticamente per la prossima scansione
+    console.log('Scansione pronta per il prossimo codice');
+}
+
+// Callback per errore di scansione
+function onScanFailure(error) {
+    // Gli errori comuni sono ignorati (es: nessun codice trovato)
+    console.warn(`Errore scansione: ${error}`);
+}
+
+// Funzione per caricare immagine
+uploadBtn.addEventListener('click', function() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    
+    input.onchange = function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            html5QrCode.scanFile(file, true)
+                .then(decodedText => {
+                    onScanSuccess(decodedText, {});
+                })
+                .catch(err => {
+                    console.error("Errore nella scansione dell'immagine:", err);
+                    alert("Impossibile leggere il codice a barre dall'immagine.");
+                });
+        }
+    };
+    
+    input.click();
+});
+
+// Pulsante cronologia
+if (storiaButton) {
+    storiaButton.addEventListener('click', function() {
+        this.classList.add('bounce');
+        setTimeout(() => {
+            this.classList.remove('bounce');
+        }, 400);
+        
+        // Simula visualizzazione cronologia
+        risultatoTesto.innerHTML = `
+            <strong>Cronologia Scansioni:</strong><br><br>
+            <div style="background: #f5f5f5; padding: 10px; border-radius: 8px; margin: 5px 0;">
+                <strong>Pasta Barilla</strong><br>
+                Codice: 8000500310427<br>
+                Scansione: 5 minuti fa
+            </div>
+            <div style="background: #f5f5f5; padding: 10px; border-radius: 8px; margin: 5px 0;">
+                <strong>Olio Extra Vergine</strong><br>
+                Codice: 8001090310014<br>
+                Scansione: 2 ore fa
+            </div>
+            <div style="background: #f5f5f5; padding: 10px; border-radius: 8px; margin: 5px 0;">
+                <strong>Parmigiano Reggiano</strong><br>
+                Codice: 8017716000855<br>
+                Scansione: 1 giorno fa
+            </div>
+        `;
+        risultatoScansione.style.display = 'block';
+        
+        console.log('Cronologia scansioni');
+    });
+}
+
+// Gestione reindirizzamento per il pulsante Home
+const homeButton = document.getElementById('homeButton');
+if (homeButton) {
+    homeButton.addEventListener('click', function() {
+        // Ferma la scansione prima di uscire
+        if (scansioneAttiva) {
+            fermaScansione();
+        }
+        setTimeout(() => {
+            window.location.href = 'Home.html';
+        }, 300);
+    });
+}
+
+// Gestione reindirizzamento per il pulsante Ricettario
+const bookButton = document.getElementById('bookButton');
+if (bookButton) {
+    bookButton.addEventListener('click', function() {
+        // Ferma la scansione prima di uscire
+        if (scansioneAttiva) {
+            fermaScansione();
+        }
+        setTimeout(() => {
+            window.location.href = 'Riccetario.html';
+        }, 300);
+    });
+}
+
+// Avvia automaticamente la scansione al caricamento della pagina
+setTimeout(avviaScansione, 500);
+
+// Funzione globale per vedere ricette
+window.vediRicette = function(codice) {
+    alert(`Verrai reindirizzato alle ricette per il prodotto con codice: ${codice}\n\nIn una versione futura, questo pulsante mostrerà ricette specifiche per il prodotto scansionato.`);
+    // Qui potresti reindirizzare a una pagina di ricette specifica
+    // window.location.href = `Ricette.html?codice=${codice}`;
+};
+
+// Pulisci la scansione quando si esce dalla pagina
+window.addEventListener('beforeunload', function() {
+    if (scansioneAttiva) {
+        fermaScansione();
+    }
+});
 });
