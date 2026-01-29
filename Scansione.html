@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipeer - Scansiona</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Style.css">
+    <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+
+<body>
+     <div class="header">
+        <button class="user-button" id="userButton">
+            <i class="fas fa-user"></i>
+        </button>
+        <h1 class="logo">Recipeer</h1>
+    </div>
+
+
+    <div class="main-content">
+        <div class="daily-recipe-section">
+            <div class="section-header">
+                <h2 class="section-title">Scansiona</h2>
+                <div class="action-buttons">
+                    <button class="square-button" id="storiaButton">
+                        <i class="fas fa-history"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="scansione-container">
+            <p class="scansione-descrizione">
+                Scansiona il codice a barre di un prodotto alimentare per ottenere immediatamente ricette e suggerimenti di preparazione.
+            </p>
+            
+            <div class="scansione-area">
+                <div class="scansione-attiva" id="scansioneStatus">
+                    <i class="fas fa-camera"></i>
+                    Scansione attiva
+                </div>
+                <div id="reader"></div>
+            </div>
+            
+            <div class="scansione-pulsanti">
+                <button class="scansione-btn secondario" id="uploadBtn">
+                    <i class="fas fa-upload"></i>
+                    Carica Immagine
+                </button>
+            </div>
+            
+            <div class="risultato-scansione" id="risultatoScansione">
+                <h3 class="risultato-titolo">Risultato Scansione:</h3>
+                <p class="risultato-testo" id="risultatoTesto"></p>
+            </div>
+            
+            <div class="scansione-istruzioni">
+                <h3 class="scansione-title">Come scansionare:</h3>
+                <ul class="istruzioni-lista">
+                    <li><i class="fas fa-check-circle"></i> Posiziona il codice a barre all'interno del riquadro</li>
+                    <li><i class="fas fa-check-circle"></i> Mantieni il dispositivo stabile</li>
+                    <li><i class="fas fa-check-circle"></i> Assicurati che ci sia una buona illuminazione</li>
+                    <li><i class="fas fa-check-circle"></i> Puoi anche caricare un'immagine con il codice a barre</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="menu-bar">
+        <button class="menu-button" id="homeButton" data-action="home">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </button>
+        <button class="menu-button" id="bookButton" data-action="book">
+            <i class="fas fa-book"></i>
+            <span>Ricettario</span>
+        </button>
+        <button class="menu-button active" id="cameraButton" data-action="camera">
+            <i class="fas fa-camera"></i>
+            <span>Scansiona</span>
+        </button>
+        <button class="menu-button" id="heartButton" data-action="heart">
+            <i class="fas fa-heart"></i>
+            <span>Preferiti</span>
+        </button>
+    </div>
+
+    <script src="Script.js"></script>
+</body>
+</html>
