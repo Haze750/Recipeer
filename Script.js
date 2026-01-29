@@ -24,7 +24,7 @@ document.querySelectorAll('.menu-button').forEach(button => {
         // Gestione reindirizzamento per il pulsante Ricettario
         if (this.id === 'homeButton') {
             setTimeout(() => {
-                window.location.href = 'Home.html';
+                window.location.href = 'index.html';
             }, 300);
         }
         if (this.id === 'bookButton') {
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (homeButton) {
             homeButton.addEventListener('click', function() {
                 setTimeout(() => {
-                    window.location.href = 'Home.html';
+                    window.location.href = 'index.html';
                 }, 300);
             });
         }
@@ -439,7 +439,7 @@ if (homeButton) {
             fermaScansione();
         }
         setTimeout(() => {
-            window.location.href = 'Home.html';
+            window.location.href = 'index.html';
         }, 300);
     });
 }
@@ -475,3 +475,4 @@ window.addEventListener('beforeunload', function() {
     }
 });
 });
+
