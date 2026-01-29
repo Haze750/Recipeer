@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipeer - Ricettario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Style.css">     
+</head>
+
+<body>
+    <div class="header">
+        <button class="user-button" id="userButton">
+            <i class="fas fa-user"></i>
+        </button>
+        <h1 class="logo">Recipeer</h1>
+    </div>
+
+    <div class="main-content">
+        <div class="daily-recipe-section">
+            <div class="section-header">
+                <h2 class="section-title">Ricettario</h2>
+                <div class="action-buttons">
+                    <button class="square-button" id="filterButton">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                    <button class="square-button" id="searchButton">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ricettario-container">
+            <!-- blocchi di ricette -->
+
+            <div class="ricettario-card">
+                <div class="ricettario-icon">
+                    <i class="fas fa-pizza-slice"></i>
+                </div>
+                <div class="ricettario-content">
+                    <h3 class="ricettario-title">Pizza Margherita</h3>
+                </div>
+            </div>
+
+            <div class="ricettario-card">
+                <div class="ricettario-icon">
+                    <i class="fas fa-hamburger"></i>
+                </div>
+                <div class="ricettario-content">
+                    <h3 class="ricettario-title">Hamburger Classico</h3>
+                </div>
+            </div>
+
+            <div class="ricettario-card">
+                <div class="ricettario-icon">
+                    <i class="fas fa-drumstick-bite"></i>
+                </div>
+                <div class="ricettario-content">
+                    <h3 class="ricettario-title">Pollo al Curry</h3>
+                </div>
+            </div>
+
+            <div class="ricettario-card">
+                <div class="ricettario-icon">
+                    <i class="fas fa-carrot"></i>
+                </div>
+                <div class="ricettario-content">
+                    <h3 class="ricettario-title">Zuppa di Verdure</h3>
+                </div>
+            </div>
+
+            <div class="ricettario-card">
+                <div class="ricettario-icon">
+                    <i class="fas fa-cheese"></i>
+                </div>
+                <div class="ricettario-content">
+                    <h3 class="ricettario-title">Lasagna Bolognese</h3>
+                </div>
+            </div>
+
+            <div class="ricettario-card">
+                <div class="ricettario-icon">
+                    <i class="fas fa-bread-slice"></i>
+                </div>
+                <div class="ricettario-content">
+                    <h3 class="ricettario-title">Bruschetta al Pomodoro</h3>
+                </div>
+            </div>
+
+            <div class="ricettario-card">
+                <div class="ricettario-icon">
+                    <i class="fas fa-egg"></i>
+                </div>
+                <div class="ricettario-content">
+                    <h3 class="ricettario-title">Frittata di Zucchine</h3>
+                </div>
+            </div>
+
+            <div class="ricettario-card">
+                <div class="ricettario-icon">
+                    <i class="fas fa-bacon"></i>
+                </div>
+                <div class="ricettario-content">
+                    <h3 class="ricettario-title">Pancetta Croccante</h3>
+                </div>
+            </div>
+
+            <div class="ricettario-card">
+                <div class="ricettario-icon">
+                    <i class="fas fa-ice-cream"></i>
+                </div>
+                <div class="ricettario-content">
+                    <h3 class="ricettario-title">Tiramisù Classico</h3>
+                </div>
+            </div>
+
+            <div class="ricettario-card">
+                <div class="ricettario-icon">
+                    <i class="fas fa-cookie-bite"></i>
+                </div>
+                <div class="ricettario-content">
+                    <h3 class="ricettario-title">Biscotti al Cioccolato</h3>
+                </div>
+            </div>
+
+            <div class="ricettario-card">
+                <div class="ricettario-icon">
+                    <i class="fas fa-wine-glass-alt"></i>
+                </div>
+                <div class="ricettario-content">
+                    <h3 class="ricettario-title">Sangria alla Frutta</h3>
+                </div>
+            </div>
+
+            <div class="ricettario-card">
+                <div class="ricettario-icon">
+                    <i class="fas fa-pepper-hot"></i>
+                </div>
+                <div class="ricettario-content">
+                    <h3 class="ricettario-title">Chili con Carne</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-bar">
+        <button class="menu-button" id="homeButton" data-action="home">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </button>
+        <button class="menu-button active" id="bookButton" data-action="book">
+            <i class="fas fa-book"></i>
+            <span>Ricettario</span>
+        </button>
+        <button class="menu-button" id="cameraButton" data-action="camera">
+            <i class="fas fa-camera"></i>
+            <span>Scansiona</span>
+        </button>
+        <button class="menu-button" id="heartButton" data-action="heart">
+            <i class="fas fa-heart"></i>
+            <span>Preferiti</span>
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
