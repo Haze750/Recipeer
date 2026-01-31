@@ -43,35 +43,129 @@
         </div>
 
 
-        <div class="daily-dishes-container">
-            <div class="dish-card" id="dish1">
+            <div class="daily-dishes-container">
+                <div class="dish-card" id="dish1" data-id="1" data-difficulty="easy" data-type="flour">
                 <div class="dish-icon">
                     <i class="fas fa-mortar-pestle"></i>
                 </div>
                 <div class="dish-content">
                     <h3 class="dish-title">Pasta al Pomodoro Fresco</h3>
                     <p class="dish-description">Una ricetta classica italiana con pomodori freschi, basilico e aglio. Perfetta per un pranzo veloce ma gustoso. Preparazione in soli 20 minuti.</p>
+                    
+                    <!-- Tags per desktop/tablet (basso a sinistra) -->
+                    <div class="dish-tags desktop-tags">
+                        <div class="tag difficulty">
+                            <i class="fas fa-trophy"></i>
+                            <span>Easy</span>
+                        </div>
+                        <div class="tag typeRecipe">
+                            <i class="fas fa-tag"></i>
+                            <span>Flour</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Button per desktop/tablet (basso a destra) -->
+                    <button class="addToFavorite desktop-favorite" data-id="1">
+                        <i class="far fa-heart"></i>
+                    </button>
                 </div>
+                
+                <!-- Tags per mobile (alto a sinistra) -->
+                <div class="dish-tags mobile-tags">
+                    <div class="tag difficulty">
+                        <i class="fas fa-trophy"></i>
+                        <span>Easy</span>
+                    </div>
+                    <div class="tag typeRecipe">
+                        <i class="fas fa-tag"></i>
+                        <span>Flour</span>
+                    </div>
+                </div>
+                
+                <!-- Button per mobile (alto a destra) -->
+                <button class="addToFavorite mobile-favorite" data-id="1">
+                    <i class="far fa-heart"></i>
+                </button>
             </div>
 
-            <div class="dish-card" id="dish2">
+            <div class="dish-card" id="dish2" data-id="2" data-difficulty="medium" data-type="vegetable">
                 <div class="dish-icon">
                     <i class="fas fa-leaf"></i>
                 </div>
                 <div class="dish-content">
                     <h3 class="dish-title">Insalata di Quinoa e Avocado</h3>
                     <p class="dish-description">Un'insalata ricca di proteine e grassi sani, perfetta per un pasto nutriente e bilanciato. Ideale per chi segue una dieta vegana.</p>
+                    
+                    <div class="dish-tags desktop-tags">
+                        <div class="tag difficulty">
+                            <i class="fas fa-trophy"></i>
+                            <span>Medium</span>
+                        </div>
+                        <div class="tag typeRecipe">
+                            <i class="fas fa-tag"></i>
+                            <span>Vegetable</span>
+                        </div>
+                    </div>
+                    
+                    <button class="addToFavorite desktop-favorite" data-id="2">
+                        <i class="far fa-heart"></i>
+                    </button>
                 </div>
+                
+                <div class="dish-tags mobile-tags">
+                    <div class="tag difficulty">
+                        <i class="fas fa-trophy"></i>
+                        <span>Medium</span>
+                    </div>
+                    <div class="tag typeRecipe">
+                        <i class="fas fa-tag"></i>
+                        <span>Vegetable</span>
+                    </div>
+                </div>
+                
+                <button class="addToFavorite mobile-favorite" data-id="2">
+                    <i class="far fa-heart"></i>
+                </button>
             </div>
 
-            <div class="dish-card" id="dish3">
+            <div class="dish-card" id="dish3" data-id="3" data-difficulty="medium" data-type="seafood">
                 <div class="dish-icon">
                     <i class="fas fa-fish"></i>
                 </div>
                 <div class="dish-content">
                     <h3 class="dish-title">Salmone al Forno con Verdure</h3>
                     <p class="dish-description">Salmone cotto al forno con patate e zucchine, un piatto ricco di omega-3 e sapori mediterranei. Cottura totale: 30 minuti.</p>
+                    
+                    <div class="dish-tags desktop-tags">
+                        <div class="tag difficulty">
+                            <i class="fas fa-trophy"></i>
+                            <span>Medium</span>
+                        </div>
+                        <div class="tag typeRecipe">
+                            <i class="fas fa-tag"></i>
+                            <span>Seafood</span>
+                        </div>
+                    </div>
+                    
+                    <button class="addToFavorite desktop-favorite" data-id="3">
+                        <i class="far fa-heart"></i>
+                    </button>
                 </div>
+                
+                <div class="dish-tags mobile-tags">
+                    <div class="tag difficulty">
+                        <i class="fas fa-trophy"></i>
+                        <span>Medium</span>
+                    </div>
+                    <div class="tag typeRecipe">
+                        <i class="fas fa-tag"></i>
+                        <span>Seafood</span>
+                    </div>
+                </div>
+                
+                <button class="addToFavorite mobile-favorite" data-id="3">
+                    <i class="far fa-heart"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -99,4 +193,3 @@
     <script src="Script.js"></script>
 </body>
 </html>
-
