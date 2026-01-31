@@ -189,23 +189,6 @@ body {
     animation: clickEffect 0.3s ease;
 }
 
-@keyframes clickEffect {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    }
-    50% {
-        transform: scale(0.98);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        background-color: #f9f9f9;
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        background-color: #fff;
-    }
-}
-
 .dish-icon {
     width: 135.2px; 
     height: 135.2px; 
@@ -341,9 +324,9 @@ body {
 }
 
 
-/*---------------------------------------------------------------------------------------
+/*------------------------------------------------------------------------------------------------------------------------
 style specifico per riccetario
-----------------------------------------------------------------------------------------*/
+--------------------------------------------------------------------------------------------------------------------------*/
 .ricettario-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -441,9 +424,9 @@ style specifico per riccetario
 }
 
 
-/*---------------------------------------------------------------------------------------
+/*--------------------------------------------------------------------------------------------------------------------
 style specifico per scansiona
-----------------------------------------------------------------------------------------*/
+----------------------------------------------------------------------------------------------------------------------*/
 .scansione-container {
     display: flex;
     flex-direction: column;
@@ -598,6 +581,31 @@ style specifico per scansiona
     animation: pulse 2s infinite;
 }
 
+.scansione-status-permanente {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4ecdc4;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: pulse 2s infinite;
+    z-index: 10;
+}
+
+.scansione-auto-notice {
+    text-align: center;
+    color: #4ecdc4;
+    font-weight: 500;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
 @keyframes pulse {
     0% { opacity: 1; }
     50% { opacity: 0.7; }
@@ -628,6 +636,268 @@ style specifico per scansiona
     .scansione-btn {
         width: 100%;
         justify-content: center;
+    }
+}
+
+
+/*---------------------------------------------------------------------------------------
+Stily per tags e button nei blocchi recipe in Home.html
+----------------------------------------------------------------------------------------*/
+
+.dish-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    position: absolute;
+}
+
+.tag {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    max-width: 120px;
+}
+
+.tag i {
+    font-size: 0.8rem;
+}
+
+/* Tags per main dishes (testo nero, senza sfondo) */
+.dish-card:not(.dessert-mode) .tag {
+    background: none;
+    color: #333;  /* Testo nero */
+    border: none;
+}
+
+/* Tags per dessert (testo bianco, senza sfondo) */
+.dessert-mode .dish-card .tag {
+    background: none;
+    color: white;  /* Testo bianco */
+    border: none;
+}
+
+/* Pulsante addToFavorite */
+.addToFavorite {
+    position: absolute;
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.addToFavorite:hover {
+    transform: scale(1.1);
+}
+
+.addToFavorite.favorite {
+    color: #ff6b6b;
+}
+
+/* Layout per mobile (fino a 767px) */
+.mobile-tags {
+    top: 15px;
+    left: 15px;
+    display: flex;
+}
+
+.mobile-favorite {
+    top: 15px;
+    right: 15px;
+    display: block;
+}
+
+.desktop-tags {
+    display: none;
+}
+
+.desktop-favorite {
+    display: none;
+}
+
+/* Layout per tablet/desktop (768px e oltre) */
+@media (min-width: 768px) {
+    .mobile-tags {
+        display: none;
+    }
+    
+    .mobile-favorite {
+        display: none;
+    }
+    
+    .desktop-tags {
+        display: flex;
+        bottom: 15px;
+        left: 15px;
+    }
+    
+    .desktop-favorite {
+        display: block;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+/* Aggiustamenti per i dessert */
+.dessert-mode .dish-card .addToFavorite {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.dessert-mode .dish-card .addToFavorite.favorite {
+    color: #ff6b6b;
+}
+
+.dessert-mode .dish-card .addToFavorite:hover {
+    color: white;
+}
+
+
+/*------------------------------------------------------------------------------------------------------------
+Style specifico per Preferiti.html 
+--------------------------------------------------------------------------------------------------------------*/
+.preferiti-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.preferiti-vuoto {
+    max-width: 500px;
+}
+
+.preferiti-vuoto-icon {
+    font-size: 4rem;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.preferiti-vuoto-titolo {
+    font-size: 1.8rem;
+    color: #666;
+    margin-bottom: 15px;
+    font-weight: 450;
+    font-family: Impact;
+}
+
+.preferiti-vuoto-testo {
+    color: #999;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+/* Container per le ricette preferite */
+.preferiti-ricette-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Card per le ricette preferite */
+.preferiti-card {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    height: 80px;
+    position: relative;
+}
+
+.preferiti-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.preferiti-card:active {
+    animation: clickEffect 0.3s ease;
+}
+
+.preferiti-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #333;
+    flex-shrink: 0;
+    background-color: #f0f0f0;
+}
+
+.preferiti-content {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.preferiti-title {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.removeFromFavorite {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.removeFromFavorite:hover {
+    background-color: rgba(255, 107, 107, 0.1);
+    transform: scale(1.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .preferiti-ricette-container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    .preferiti-card {
+        height: 70px;
+        padding: 12px;
+    }
+    
+    .preferiti-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .preferiti-ricette-container {
+        grid-template-columns: 1fr;
     }
 }
 
