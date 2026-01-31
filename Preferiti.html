@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipeer - Preferiti</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Style.css">
+</head>
+
+
+<body>
+    <div class="header">
+        <button class="user-button" id="userButton">
+            <i class="fas fa-user"></i>
+        </button>
+        <h1 class="logo">Recipeer</h1>
+    </div>
+
+
+    <div class="main-content">
+        <div class="daily-recipe-section">
+            <div class="section-header">
+                <h2 class="section-title">Preferiti</h2>
+                <!-- Action buttons rimossi come richiesto -->
+            </div>
+        </div>
+
+        <div id="preferitiContenuto">
+            <!-- Il contenuto verrà popolato dinamicamente da JavaScript -->
+            <div class="preferiti-container">
+                <div class="preferiti-vuoto">
+                    <div class="preferiti-vuoto-icon">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <h3 class="preferiti-vuoto-titolo">Nessuna ricetta preferita</h3>
+                    <p class="preferiti-vuoto-testo">
+                        Aggiungi ricette ai tuoi preferiti.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="menu-bar">
+        <button class="menu-button" id="homeButton" data-action="home">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </button>
+        <button class="menu-button" id="bookButton" data-action="book">
+            <i class="fas fa-book"></i>
+            <span>Ricettario</span>
+        </button>
+        <button class="menu-button" id="cameraButton" data-action="camera">
+            <i class="fas fa-camera"></i>
+            <span>Scansiona</span>
+        </button>
+        <button class="menu-button active" id="heartButton" data-action="heart">
+            <i class="fas fa-heart"></i>
+            <span>Preferiti</span>
+        </button>
+    </div>
+
+    <script src="Script.js"></script>
+</body>
+</html>
