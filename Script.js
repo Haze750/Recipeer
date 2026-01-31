@@ -15,16 +15,15 @@ document.querySelectorAll('.menu-button').forEach(button => {
         });
         
         this.classList.add('active');
-        
-        // Rimuovi la classe di bounce dopo l'animazione
         setTimeout(() => {
             this.classList.remove('bounce');
         }, 400);
         
+
         // Gestione reindirizzamento per il pulsante Ricettario
         if (this.id === 'homeButton') {
             setTimeout(() => {
-                window.location.href = 'index.html';
+                window.location.href = 'Home.html';
             }, 300);
         }
         if (this.id === 'bookButton') {
@@ -37,6 +36,11 @@ document.querySelectorAll('.menu-button').forEach(button => {
                 window.location.href = 'Scansione.html';
             }, 300);
         }
+        if (this.id === 'heartButton') {
+            setTimeout(() => {
+                window.location.href = 'Preferiti.html';
+            }, 300);
+        }
         
         // Al momento non eseguiamo altre azioni per gli altri pulsanti
         console.log(`Hai cliccato il pulsante: ${this.getAttribute('data-action')}`);
@@ -47,11 +51,147 @@ document.querySelectorAll('.menu-button').forEach(button => {
 document.getElementById('userButton').addEventListener('click', function() {
     this.classList.add('bounce');
     setTimeout(() => {
-        this.classList.remove('bounce');
+        window.location.href = "userSpace.html";
     }, 400);
     console.log('Profilo utente');
 });
 
+/*-----------------------------------------------------------------------------------------------------------------
+funzione per gestire il pulsante add to favorite
+------------------------------------------------------------------------------------------------------------------*/ 
+const favoritesKey = 'recipeer_favorites';
+
+// Funzione per ottenere i preferiti dal localStorage
+function getFavorites() {
+    const favorites = localStorage.getItem(favoritesKey);
+    return favorites ? JSON.parse(favorites) : [];
+}
+
+// Funzione per salvare i preferiti nel localStorage
+function saveFavorites(favorites) {
+    localStorage.setItem(favoritesKey, JSON.stringify(favorites));
+}
+
+// Funzione per aggiungere/rimuovere dai preferiti
+// Modifica la funzione toggleFavorite per includere il tipo di piatto
+function toggleFavorite(recipeId, dishType) {
+    const favorites = getFavorites();
+    
+    // Crea un ID unico combinando recipeId e dishType
+    const uniqueId = `${recipeId}_${dishType}`;
+    const index = favorites.indexOf(uniqueId);
+    
+    if (index === -1) {
+        // Aggiungi ai preferiti
+        favorites.push(uniqueId);
+        console.log(`Ricetta ${uniqueId} aggiunta ai preferiti`);
+    } else {
+        // Rimuovi dai preferiti
+        favorites.splice(index, 1);
+        console.log(`Ricetta ${uniqueId} rimossa dai preferiti`);
+    }
+    
+    saveFavorites(favorites);
+    updateFavoriteButtons();
+    return favorites.includes(uniqueId);
+}
+
+// Funzione per aggiornare lo stato dei pulsanti preferiti
+function updateFavoriteButtons() {
+    const favorites = getFavorites();
+    
+    // Aggiorna i pulsanti nella Home page
+    document.querySelectorAll('.addToFavorite').forEach(button => {
+        const recipeId = button.getAttribute('data-id');
+        const dishCard = button.closest('.dish-card');
+        const isDessertMode = dishCard.closest('.daily-dishes-container').classList.contains('dessert-mode');
+        const dishType = isDessertMode ? 'dessert' : 'main';
+        const uniqueId = `${recipeId}_${dishType}`;
+        
+        if (favorites.includes(uniqueId)) {
+            button.classList.add('favorite');
+            button.innerHTML = '<i class="fas fa-heart"></i>';
+        } else {
+            button.classList.remove('favorite');
+            button.innerHTML = '<i class="far fa-heart"></i>';
+        }
+    });
+}
+
+// Funzione per ottenere i dati di una ricetta dal suo ID
+function getRecipeData(recipeId) {
+    // Dati delle ricette principali
+    const mainDishes = [
+        {
+            id: "1",
+            icon: "fas fa-mortar-pestle",
+            title: "Pasta al Pomodoro Fresco",
+            description: "Una ricetta classica italiana con pomodori freschi, basilico e aglio. Perfetta per un pranzo veloce ma gustoso. Preparazione in soli 20 minuti.",
+            difficulty: "Easy",
+            type: "Flour"
+        },
+        {
+            id: "2", 
+            icon: "fas fa-leaf",
+            title: "Insalata di Quinoa e Avocado",
+            description: "Un'insalata ricca di proteine e grassi sani, perfetta per un pasto nutriente e bilanciato. Ideale per chi segue una dieta vegana.",
+            difficulty: "Medium",
+            type: "Vegetable"
+        },
+        {
+            id: "3",
+            icon: "fas fa-fish",
+            title: "Salmone al Forno con Verdure",
+            description: "Salmone cotto al forno con patate e zucchine, un piatto ricco di omega-3 e sapori mediterranei. Cottura totale: 30 minuti.",
+            difficulty: "Medium", 
+            type: "Seafood"
+        }
+    ];
+    
+    // Dati dei dessert
+    const desserts = [
+        {
+            id: "1",
+            icon: "fas fa-wine-glass-alt",
+            title: "Tiramisù Classico",
+            description: "Il famoso dolce italiano a strati con savoiardi, caffè, mascarpone e cacao. Perfetto per concludere un pasto.",
+            difficulty: "Medium",
+            type: "Dessert"
+        },
+        {
+            id: "2",
+            icon: "fas fa-ice-cream",
+            title: "Gelato alla Vaniglia",
+            description: "Gelato artigianale alla vaniglia con granella di nocciole. Fresco e cremoso, ideale per le giornate calde.",
+            difficulty: "Easy",
+            type: "Dessert"
+        },
+        {
+            id: "3",
+            icon: "fas fa-cookie-bite",
+            title: "Cheesecake ai Frutti di Bosco",
+            description: "Torta di formaggio con base di biscotti e topping di frutti di bosco freschi. Dolce ma non troppo.",
+            difficulty: "Hard",
+            type: "Dessert"
+        }
+    ];
+    
+    // Cerca nelle ricette principali
+    const mainDish = mainDishes.find(dish => dish.id === recipeId);
+    if (mainDish) return mainDish;
+    
+    // Cerca nei dessert
+    const dessert = desserts.find(dess => dess.id === recipeId);
+    if (dessert) return dessert;
+    
+    return null;
+}
+
+
+/* --------------------------------------------------------------------------------------------------------------
+Funzione per aggiornare le ricette nei daily dishes
+------------------------------------------------------------------------------------------------------------------*/
+// Funzione per aggiornare le ricette nei daily dishes
 // Funzione per aggiornare le ricette nei daily dishes
 function updateDishes(dishesType) {
     const dishCards = document.querySelectorAll('.dish-card');
@@ -60,38 +200,56 @@ function updateDishes(dishesType) {
     // Array di ricette per piatti principali
     const mainDishes = [
         {
+            id: "1",
             icon: 'fas fa-mortar-pestle',
             title: 'Pasta al Pomodoro Fresco',
-            description: 'Una ricetta classica italiana con pomodori freschi, basilico e aglio. Perfetta per un pranzo veloce ma gustoso. Preparazione in soli 20 minuti.'
+            description: 'Una ricetta classica italiana con pomodori freschi, basilico e aglio. Perfetta per un pranzo veloce ma gustoso. Preparazione in soli 20 minuti.',
+            difficulty: 'Easy',
+            type: 'Flour'
         },
         {
+            id: "2",
             icon: 'fas fa-leaf',
             title: 'Insalata di Quinoa e Avocado',
-            description: 'Un\'insalata ricca di proteine e grassi sani, perfetta per un pasto nutriente e bilanciato. Ideale per chi segue una dieta vegana.'
+            description: 'Un\'insalata ricca di proteine e grassi sani, perfetta per un pasto nutriente e bilanciato. Ideale per chi segue una dieta vegana.',
+            difficulty: 'Medium',
+            type: 'Vegetable'
         },
         {
+            id: "3",
             icon: 'fas fa-fish',
             title: 'Salmone al Forno con Verdure',
-            description: 'Salmone cotto al forno con patate e zucchine, un piatto ricco di omega-3 e sapori mediterranei. Cottura totale: 30 minuti.'
+            description: 'Salmone cotto al forno con patate e zucchine, un piatto ricco di omega-3 e sapori mediterranei. Cottura totale: 30 minuti.',
+            difficulty: 'Medium',
+            type: 'Seafood'
         }
     ];
     
     // Array di ricette per dessert 
     const desserts = [
         {
+            id: "1",
             icon: 'fas fa-wine-glass-alt',
             title: 'Tiramisù Classico',
-            description: 'Il famoso dolce italiano a strati con savoiardi, caffè, mascarpone e cacao. Perfetto per concludere un pasto.'
+            description: 'Il famoso dolce italiano a strati con savoiardi, caffè, mascarpone e cacao. Perfetto per concludere un pasto.',
+            difficulty: 'Medium',
+            type: 'Dessert'
         },
         {
+            id: "2",
             icon: 'fas fa-ice-cream',
             title: 'Gelato alla Vaniglia',
-            description: 'Gelato artigianale alla vaniglia con granella di nocciole. Fresco e cremoso, ideale per le giornate calde.'
+            description: 'Gelato artigianale alla vaniglia con granella di nocciole. Fresco e cremoso, ideale per le giornate calde.',
+            difficulty: 'Easy',
+            type: 'Dessert'
         },
         {
+            id: "3",
             icon: 'fas fa-cookie-bite',
             title: 'Cheesecake ai Frutti di Bosco',
-            description: 'Torta di formaggio con base di biscotti e topping di frutti di bosco freschi. Dolce ma non troppo.'
+            description: 'Torta di formaggio con base di biscotti e topping di frutti di bosco freschi. Dolce ma non troppo.',
+            difficulty: 'Hard',
+            type: 'Dessert'
         }
     ];
     
@@ -112,17 +270,48 @@ function updateDishes(dishesType) {
             const dishTitle = card.querySelector('.dish-title');
             const dishDescription = card.querySelector('.dish-description');
             
+            // Seleziona correttamente i tag
+            const difficultySpans = card.querySelectorAll('.difficulty span');
+            const typeSpans = card.querySelectorAll('.typeRecipe span');
+            
             dishIcon.className = dishesArray[index].icon;
             dishTitle.textContent = dishesArray[index].title;
             dishDescription.textContent = dishesArray[index].description;
+            
+            // Aggiorna i tags di difficoltà
+            difficultySpans.forEach(span => {
+                span.textContent = dishesArray[index].difficulty;
+            });
+            
+            // Aggiorna i tags di tipo
+            typeSpans.forEach(span => {
+                span.textContent = dishesArray[index].type;
+            });
+            
+            // Aggiorna gli attributi data
+            card.setAttribute('data-id', dishesArray[index].id);
+            card.setAttribute('data-difficulty', dishesArray[index].difficulty.toLowerCase());
+            card.setAttribute('data-type', dishesArray[index].type.toLowerCase());
+            
+            // Aggiorna i pulsanti favorite
+            const favoriteButtons = card.querySelectorAll('.addToFavorite');
+            favoriteButtons.forEach(button => {
+                button.setAttribute('data-id', dishesArray[index].id);
+                button.setAttribute('data-dish-type', dishesType); // Aggiungi tipo di piatto
+            });
         }
     });
+    
+    // Aggiorna lo stato dei pulsanti preferiti
+    updateFavoriteButtons();
 }
 
-// Inizializza la pagina quando è pronta
+/* ---------------------------------------------------------------------------------------------------------------------
+Inizializza la pagina quando è pronta 
+------------------------------------------------------------------------------------------------------------------------*/
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Benvenuto su Recipeer!');
-    
+
     // Gestione dei pulsanti di filtro nella Home page
     const mainDishesBtn = document.getElementById('mainDishes');
     const dessertsBtn = document.getElementById('desserts');
@@ -169,6 +358,30 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Gestione click sui pulsanti preferiti
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.addToFavorite')) {
+            const button = e.target.closest('.addToFavorite');
+            const recipeId = button.getAttribute('data-id');
+            const dishCard = button.closest('.dish-card');
+            const isDessertMode = dishCard.closest('.daily-dishes-container').classList.contains('dessert-mode');
+            const dishType = isDessertMode ? 'dessert' : 'main';
+            
+            // Toggle dello stato preferito
+            const isFavorite = toggleFavorite(recipeId, dishType);
+            // Effetto di bounce
+            button.classList.add('bounce');
+            setTimeout(() => {
+                button.classList.remove('bounce');
+            }, 400);
+            
+            console.log(`Preferito toggled per ricetta ${recipeId}_${dishType}: ${isFavorite ? 'aggiunta' : 'rimossa'}`);
+        }
+    });
+
+    // Inizializza i pulsanti preferiti al caricamento
+    updateFavoriteButtons();
 });
 
 // Effetto di rimbalzo per i square-button
@@ -188,28 +401,6 @@ document.querySelectorAll('.square-button').forEach(button => {
                 console.log('Condividi ricetta');
             }
         }
-    });
-});
-
-// Effetto di click sui daily dishes (0.3 secondi)
-document.querySelectorAll('.dish-card').forEach(dish => {
-    dish.addEventListener('click', function() {
-        // Rimuoviamo la classe se già presente (per resettare l'animazione)
-        this.classList.remove('clicked');
-        
-        // Forziamo un reflow per permettere all'animazione di ripartire
-        void this.offsetWidth;
-        
-        // Aggiungiamo la classe per attivare l'animazione
-        this.classList.add('clicked');
-        
-        // Dopo 0.3 secondi, rimuoviamo la classe
-        setTimeout(() => {
-            this.classList.remove('clicked');
-        }, 300);
-        
-        // Log per debug
-        console.log(`Hai cliccato su: ${this.querySelector('.dish-title').textContent}`);
     });
 });
 
@@ -265,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (homeButton) {
             homeButton.addEventListener('click', function() {
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = 'Home.html';
                 }, 300);
             });
         }
@@ -404,28 +595,8 @@ if (storiaButton) {
         setTimeout(() => {
             this.classList.remove('bounce');
         }, 400);
-        
-        // Simula visualizzazione cronologia
-        risultatoTesto.innerHTML = `
-            <strong>Cronologia Scansioni:</strong><br><br>
-            <div style="background: #f5f5f5; padding: 10px; border-radius: 8px; margin: 5px 0;">
-                <strong>Pasta Barilla</strong><br>
-                Codice: 8000500310427<br>
-                Scansione: 5 minuti fa
-            </div>
-            <div style="background: #f5f5f5; padding: 10px; border-radius: 8px; margin: 5px 0;">
-                <strong>Olio Extra Vergine</strong><br>
-                Codice: 8001090310014<br>
-                Scansione: 2 ore fa
-            </div>
-            <div style="background: #f5f5f5; padding: 10px; border-radius: 8px; margin: 5px 0;">
-                <strong>Parmigiano Reggiano</strong><br>
-                Codice: 8017716000855<br>
-                Scansione: 1 giorno fa
-            </div>
-        `;
-        risultatoScansione.style.display = 'block';
-        
+
+        risultatoScansione.style.display = 'block';        
         console.log('Cronologia scansioni');
     });
 }
@@ -439,7 +610,7 @@ if (homeButton) {
             fermaScansione();
         }
         setTimeout(() => {
-            window.location.href = 'index.html';
+            window.location.href = 'Home.html';
         }, 300);
     });
 }
@@ -476,3 +647,205 @@ window.addEventListener('beforeunload', function() {
 });
 });
 
+
+/*-------------------------------------------------------------------------------------------------------------------------
+js specifico per Preferiti.html
+----------------------------------------------------------------------------------------------------------------------------*/
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Pagina Preferiti caricata');
+    
+    // Funzione per caricare le ricette preferite
+    function caricaPreferiti() {
+        const favoritesKey = 'recipeer_favorites';
+        const favorites = JSON.parse(localStorage.getItem(favoritesKey) || '[]');
+        const preferitiContenuto = document.getElementById('preferitiContenuto');
+        
+        if (favorites.length === 0) {
+            // Mostra messaggio "nessuna ricetta preferita"
+            preferitiContenuto.innerHTML = `
+                <div class="preferiti-container">
+                    <div class="preferiti-vuoto">
+                        <div class="preferiti-vuoto-icon">
+                            <i class="far fa-heart"></i>
+                        </div>
+                        <h3 class="preferiti-vuoto-titolo">Nessuna ricetta preferita</h3>
+                        <p class="preferiti-vuoto-testo">
+                            Aggiungi ricette ai tuoi preferiti cliccando sul cuore nelle ricette della Home page.
+                        </p>
+                    </div>
+                </div>
+            `;
+        } else {
+            // Crea container per le ricette
+            const container = document.createElement('div');
+            container.className = 'preferiti-ricette-container';
+            
+            // Dati delle ricette disponibili - separa main dishes e dessert
+            const mainDishes = [
+                {
+                    id: "1_main",
+                    icon: "fas fa-mortar-pestle",
+                    title: "Pasta al Pomodoro Fresco",
+                    difficulty: "Easy",
+                    type: "Flour"
+                },
+                {
+                    id: "2_main", 
+                    icon: "fas fa-leaf",
+                    title: "Insalata di Quinoa e Avocado",
+                    difficulty: "Medium",
+                    type: "Vegetable"
+                },
+                {
+                    id: "3_main",
+                    icon: "fas fa-fish",
+                    title: "Salmone al Forno con Verdure",
+                    difficulty: "Medium", 
+                    type: "Seafood"
+                }
+            ];
+            
+            const desserts = [
+                {
+                    id: "1_dessert",
+                    icon: "fas fa-wine-glass-alt",
+                    title: "Tiramisù Classico",
+                    difficulty: "Medium",
+                    type: "Dessert"
+                },
+                {
+                    id: "2_dessert",
+                    icon: "fas fa-ice-cream", 
+                    title: "Gelato alla Vaniglia",
+                    difficulty: "Easy",
+                    type: "Dessert"
+                },
+                {
+                    id: "3_dessert",
+                    icon: "fas fa-cookie-bite",
+                    title: "Cheesecake ai Frutti di Bosco",
+                    difficulty: "Hard",
+                    type: "Dessert"
+                }
+            ];
+            
+            // Combina tutti i piatti
+            const tutteLeRicette = [...mainDishes, ...desserts];
+            
+            // Aggiungi solo le ricette preferite
+            favorites.forEach(favId => {
+                // Cerca la ricetta nei dati disponibili
+                const ricetta = tutteLeRicette.find(r => r.id === favId);
+                if (ricetta) {
+                    const card = document.createElement('div');
+                    card.className = 'preferiti-card';
+                    card.setAttribute('data-id', ricetta.id);
+                    
+                    card.innerHTML = `
+                        <div class="preferiti-icon">
+                            <i class="${ricetta.icon}"></i>
+                        </div>
+                        <div class="preferiti-content">
+                            <h3 class="preferiti-title">${ricetta.title}</h3>
+                            <span class="preferiti-info">${ricetta.type} • ${ricetta.difficulty}</span>
+                        </div>
+                        <button class="removeFromFavorite" data-id="${ricetta.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    `;
+                    
+                    container.appendChild(card);
+                }
+            });
+            
+            preferitiContenuto.innerHTML = '';
+            preferitiContenuto.appendChild(container);
+            
+            // Aggiungi gestori di eventi per i pulsanti di rimozione
+            document.querySelectorAll('.removeFromFavorite').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const recipeId = this.getAttribute('data-id');
+                    
+                    // Rimuovi dai preferiti
+                    const favorites = JSON.parse(localStorage.getItem('recipeer_favorites') || '[]');
+                    const index = favorites.indexOf(recipeId);
+                    
+                    if (index !== -1) {
+                        favorites.splice(index, 1);
+                        localStorage.setItem('recipeer_favorites', JSON.stringify(favorites));
+                        console.log(`Ricetta ${recipeId} rimossa dai preferiti`);
+                        
+                        // Effetto di rimozione
+                        const card = this.closest('.preferiti-card');
+                        card.style.transform = 'scale(0.9)';
+                        card.style.opacity = '0.5';
+                        
+                        setTimeout(() => {
+                            // Ricarica la pagina per aggiornare la lista
+                            caricaPreferiti();
+                        }, 300);
+                    }
+                });
+            });
+            
+            // Aggiungi gestori di eventi per i click sulle card
+            document.querySelectorAll('.preferiti-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    // Effetto di click
+                    this.classList.remove('clicked');
+                    void this.offsetWidth;
+                    this.classList.add('clicked');
+                    setTimeout(() => {
+                        this.classList.remove('clicked');
+                    }, 300);
+                    
+                    const recipeId = this.getAttribute('data-id');
+                    console.log(`Hai cliccato su ricetta preferita: ${recipeId}`);
+                });
+            });
+        }
+    }
+    
+    // Carica i preferiti all'avvio
+    caricaPreferiti();
+    
+    // Gestione reindirizzamento per il pulsante Home
+    const homeButton = document.getElementById('homeButton');
+    if (homeButton) {
+        homeButton.addEventListener('click', function() {
+            setTimeout(() => {
+                window.location.href = 'Home.html';
+            }, 300);
+        });
+    }
+    
+    // Gestione reindirizzamento per il pulsante Ricettario
+    const bookButton = document.getElementById('bookButton');
+    if (bookButton) {
+        bookButton.addEventListener('click', function() {
+            setTimeout(() => {
+                window.location.href = 'Riccetario.html';
+            }, 300);
+        });
+    }
+    
+    // Gestione reindirizzamento per il pulsante Scansione
+    const cameraButton = document.getElementById('cameraButton');
+    if (cameraButton) {
+        cameraButton.addEventListener('click', function() {
+            setTimeout(() => {
+                window.location.href = 'Scansione.html';
+            }, 300);
+        });
+    }
+    
+    // Gestione reindirizzamento per il pulsante Preferiti (ricarica la pagina)
+    const heartButton = document.getElementById('heartButton');
+    if (heartButton) {
+        heartButton.addEventListener('click', function() {
+            // La pagina è già attiva, quindi ricarica per aggiornare
+            caricaPreferiti();
+        });
+    }
+});
