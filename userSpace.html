@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipeer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Style.css"> 
+    <link rel="stylesheet" href="userSpace.css">      
+</head>
+
+<script>
+    /*
+    if (!sessionStorage.getItem("redirect_fatto")) {
+        sessionStorage.setItem("redirect_fatto", "1");
+        window.location.replace("Login.php");
+    }
+    */
+</script>
+
+<body>
+    <div class="header">
+        <button class="user-button" id="userButton">
+            <i class="fas fa-user"></i>
+        </button>
+        <h1 class="logo">Recipeer</h1>
+    </div>
+
+
+    <div class="main-content">
+        <div class="daily-recipe-section">
+            <div class="section-header">
+                <h2 class="section-title">Daily Recipe</h2>
+                
+                <div class="action-buttons">
+                    <button class="square-button" id="mainDishes">
+                        <i class="fas fa-utensils"></i>
+                    </button>
+                    <button class="square-button" id="desserts">
+                        <i class="fas fa-birthday-cake"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-circle">
+                US
+            </div>
+            <div class="subscription-badge">
+                <h3>Diventa Procipeer</h3>
+                <button>Premium</button> 
+            </div>
+        </div>
+        <div class="profile-info">
+            <table class="table table-hover">
+                <tr>
+                    <td>Nome:</td>
+                </tr>
+                <tr>
+                    <td>Cognome:</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                </tr>
+            </table>
+                <tr>
+                    <button>Modifica password</button>
+                </tr>
+            <table>
+                <tr>
+                    <td>Indirizzo:</td>
+                </tr>
+                <tr>
+                    <td>Numero di Telefono:</td>
+                </tr>
+                <tr>
+                    <td>Provenienza:</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <button>Log out</button>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <button>Elimina account</button>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="menu-bar">
+        <button class="menu-button active" id="homeButton" data-action="home">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </button>
+        <button class="menu-button" id="bookButton" data-action="book">
+            <i class="fas fa-book"></i>
+            <span>Ricettario</span>
+        </button>
+        <button class="menu-button" id="cameraButton" data-action="camera">
+            <i class="fas fa-camera"></i>
+            <span>Scansione</span>
+        </button>
+        <button class="menu-button" id="heartButton" data-action="heart">
+            <i class="fas fa-heart"></i>
+            <span>Preferiti</span>
+        </button>
+    </div>
+
+    <script src="Script.js"></script>
+</body>
+</html>
