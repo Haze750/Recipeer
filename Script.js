@@ -925,3 +925,211 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 });
+
+
+/*------------------------------------------------------------------------------------------------------------------
+js specifico per userSpace.html
+-------------------------------------------------------------------------------------------------------------------*/
+// JavaScript per la gestione delle sezioni editabili
+function toggleEditSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    const inputs = section.querySelectorAll('.input-field');
+    const editBtn = section.querySelector('.section-edit-btn');
+    const saveBtn = section.querySelector('.section-save-btn');
+    
+    // Attiva modalità modifica per tutti i campi della sezione
+    section.classList.add('editing');
+    inputs.forEach(input => {
+        input.removeAttribute('readonly');
+        input.focus();
+    });
+    
+    // Mostra pulsante salva, nascondi modifica
+    editBtn.style.display = 'none';
+    saveBtn.style.display = 'block';
+}
+
+function saveSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    const inputs = section.querySelectorAll('.input-field');
+    const editBtn = section.querySelector('.section-edit-btn');
+    const saveBtn = section.querySelector('.section-save-btn');
+    
+    // Salva tutti i valori della sezione
+    const data = {};
+    inputs.forEach(input => {
+        const fieldName = input.closest('.info-row').getAttribute('data-field');
+        data[fieldName] = input.value;
+        input.setAttribute('readonly', true);
+    });
+    
+    console.log(`Sezione ${sectionId} salvata:`, data);
+    
+    // Disabilita modalità modifica
+    section.classList.remove('editing');
+    
+    // Mostra pulsante modifica, nascondi salva
+    editBtn.style.display = 'block';
+    saveBtn.style.display = 'none';
+    
+    // Mostra messaggio di conferma
+    alert('Modifiche salvate!');
+}
+
+// Inizializza i campi come readonly
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('.input-field');
+    inputs.forEach(input => {
+        input.setAttribute('readonly', true);
+    });
+    
+    // Gestione logout
+    document.querySelector('.logout-btn').addEventListener('click', function() {
+        if (confirm('Sei sicuro di voler uscire?')) {
+            console.log('Utente disconnesso');
+            // Qui reindirizzeresti alla pagina di login
+            // window.location.href = 'login.html';
+        }
+    });
+    
+    // Gestione elimina account
+    document.querySelector('.delete-account-btn').addEventListener('click', function() {
+        if (confirm('ATTENZIONE: Questa azione è irreversibile. Sei sicuro di voler eliminare il tuo account?')) {
+            console.log('Account eliminato');
+            // Qui invieresti la richiesta al server per eliminare l'account
+            alert('Account eliminato con successo');
+        }
+    });
+    
+    // Gestione modifica password
+    document.querySelector('.edit-password-btn').addEventListener('click', function() {
+        const currentPassword = prompt('Inserisci la password attuale:');
+        if (currentPassword) {
+            const newPassword = prompt('Inserisci la nuova password:');
+            const confirmPassword = prompt('Conferma la nuova password:');
+            
+            if (newPassword && newPassword === confirmPassword) {
+                console.log('Password modificata');
+                alert('Password modificata con successo!');
+            } else {
+                alert('Le password non corrispondono o sono vuote');
+            }
+        }
+    });
+});
+
+
+/*------------------------------------------------------------------------------------------------------------------
+js specifico per abbonamenti.html
+-------------------------------------------------------------------------------------------------------------------*/
+let currentIndex = 0;
+// Recupera tutti gli elementi necessari dal DOM (HTML)
+const cards = document.querySelectorAll('.card'); 
+const container = document.getElementById('cardsContainer'); 
+const prevBtn = document.getElementById('prevBtn'); 
+const nextBtn = document.getElementById('nextBtn'); 
+const dots = document.querySelectorAll('.dot'); 
+const totalCards = cards.length; 
+
+// Sposta fisicamente il contenitore e aggiorna i pallini
+function updateCarousel() {
+    const cardWidth = cards[0].offsetWidth; // Misura la larghezza di una card
+    const gap = 30; // Definisce lo spazio tra le card
+    
+    // Calcola lo spostamento: (indice attuale * larghezza totale occupata)
+    const offset = -(currentIndex * (cardWidth + gap));
+    
+    // Applica il movimento fluido tramite CSS
+    container.style.transform = `translateX(${offset}px)`;
+
+    // Cicla sui pallini per illuminare solo quello corrispondente alla card attiva
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+    });
+}
+
+// Bottone sinistro, torna indietro o ricomincia dalla fine
+prevBtn.addEventListener('click', () => {
+    currentIndex--;
+    if (currentIndex < 0) {
+        currentIndex = totalCards - 1; // Effetto "loop" all'indietro
+    }
+    updateCarousel();
+});
+
+// Bottone destro, va avanti o ricomincia dall'inizio
+nextBtn.addEventListener('click', () => {
+    currentIndex++;
+    if (currentIndex >= totalCards) {
+        currentIndex = 0; // Effetto "loop" in avanti
+    }
+    updateCarousel();
+});
+
+// Permette il salto diretto a una specifica card
+dots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+        // Legge l'indice dal dataset HTML e lo imposta come attuale
+        currentIndex = parseInt(dot.dataset.index);
+        updateCarousel();
+    });
+});
+
+// Esecuzione iniziale per impostare lo stato corretto all'avvio
+updateCarousel();
+
+// Ricalcola larghezze e posizioni se l'utente ridimensiona il browser
+window.addEventListener('resize', updateCarousel);
+
+
+/*--------------------------------------------------------------------------------------------------------
+js specifico per impostazioni.html
+---------------------------------------------------------------------------------------------------------*/
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const notificationToggle = document.getElementById('notificationToggle');
+    const fontOptions = document.querySelectorAll('.font-option');
+    const saveBtn = document.querySelector('.save-settings-btn');
+
+    // Funzione per attivare/disattivare Dark Mode
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('change', () => {
+            document.body.classList.toggle('dark-mode');
+            // Salva la preferenza nel localStorage del browser
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+        });
+    }
+
+    // Funzione per cambiare dimensione del testo (Piccolo/Medio/Grande)
+    fontOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const size = this.getAttribute('data-size');
+            
+            // Rimuove le classi di dimensione precedenti
+            document.body.classList.remove('font-small', 'font-medium', 'font-large');
+            
+            // Applica la nuova classe al body
+            document.body.classList.add(`font-${size}`);
+            
+            // Feedback visivo nella console
+            console.log("Dimensione testo impostata su: " + size);
+        });
+    });
+
+    // Funzione per salvare tutte le impostazioni
+    if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+            const notificationsActive = notificationToggle ? notificationToggle.checked : false;
+            const isDarkActive = document.body.classList.contains('dark-mode');
+            
+            // Animazione bounce al click del bottone
+            saveBtn.classList.add('bounce');
+            setTimeout(() => saveBtn.classList.remove('bounce'), 400);
+
+            // Mostra messaggio di conferma all'utente
+            alert(`Impostazioni Recipeer salvate!\n- Notifiche: ${notificationsActive ? 'Attive' : 'Disattivate'}\n- Dark Mode: ${isDarkActive ? 'Attiva' : 'Disattivata'}`);
+        });
+    }
+});
