@@ -370,6 +370,7 @@ Style specifico per userSpace.html
         width: 100%;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         max-height: calc(100vh - 180px);
+        margin-bottom: 20px;
     }
 
     .profile-header {
@@ -1230,4 +1231,5 @@ input:checked + .slider:before { transform: translateX(24px); }
         padding: 14px;
         font-size: 0.95rem;
     }
+
 }
