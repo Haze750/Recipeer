@@ -2,22 +2,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipeer</title>
+    <title>Recipeer - Profilo Utente</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="Style.css"> 
-    <link rel="stylesheet" href="Privacy.css">      
+    <link rel="stylesheet" href="Privacy.css">     
 </head>
 
-<script>
-    /*
-    if (!sessionStorage.getItem("redirect_fatto")) {
-        sessionStorage.setItem("redirect_fatto", "1");
-        window.location.replace("Login.php");
-    }
-    */
-</script>
-
-<body>
+<body class="user-space-body">
     <div class="header">
         <button class="user-button" id="userButton">
             <i class="fas fa-user"></i>
@@ -25,76 +16,112 @@
         <h1 class="logo">Recipeer</h1>
     </div>
 
-
     <div class="main-content">
         <div class="daily-recipe-section">
-            <div class="section-header">
-                <h2 class="section-title">Daily Recipe</h2>
-                
-                <div class="action-buttons">
-                    <button class="square-button" id="mainDishes">
-                        <i class="fas fa-utensils"></i>
-                    </button>
-                    <button class="square-button" id="desserts">
-                        <i class="fas fa-birthday-cake"></i>
-                    </button>
-                </div>
-
+            <div class="section-header"> 
+                <h2 class="section-title">Profilo Utente</h2>
+                <button class="settings-button" id="settingsButton" onclick="window.location.href='impostazioni.html'">
+                    <i class="fas fa-cog"></i>
+                </button>
             </div>
         </div>
-
 
         <div class="profile-container">
-        <div class="profile-header">
-            <div class="profile-circle">
-                US
+            <div class="profile-header">
+                <div class="profile-circle">
+                    U
+                </div>
+                <div class="subscription-badge">
+                    <h3>Diventa Procipeer</h3>
+                    <button class="premium-button" onclick="window.location.href='abbonamenti.html'">
+                        <i class="fas fa-crown"></i>
+                        Premium
+                    </button>
+                </div>
             </div>
-            <div class="subscription-badge">
-                <h3>Diventa Procipeer</h3>
-                <button>Premium</button> 
+            
+            <div class="profile-info">
+                <!-- Sezione informazioni personali -->
+                <div class="info-section" id="personal-info">
+                    <div class="section-title-row">
+                        <h4>Informazioni Personali</h4>
+                        <div class="section-actions">
+                            <button class="edit-btn section-edit-btn" onclick="toggleEditSection('personal-info')">Modifica</button>
+                            <button class="save-btn section-save-btn" onclick="saveSection('personal-info')" style="display: none;">Salva</button>
+                        </div>
+                    </div>
+                    
+                    <div class="info-row" data-field="nome">
+                        <span class="info-label">Nome:</span>
+                        <input type="text" class="input-field" placeholder="Inserisci il tuo nome">
+                    </div>
+                    
+                    <div class="info-row" data-field="cognome">
+                        <span class="info-label">Cognome:</span>
+                        <input type="text" class="input-field" placeholder="Inserisci il tuo cognome">
+                    </div>
+                    
+                    <div class="info-row" data-field="email">
+                        <span class="info-label">Email:</span>
+                        <input type="email" class="input-field" placeholder="Inserisci la tua email">
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button class="action-button edit-password-btn">
+                            <i class="fas fa-key"></i>
+                            Modifica password
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Sezione informazioni di contatto -->
+                <div class="info-section" id="contact-info">
+                    <div class="section-title-row">
+                        <h4>Informazioni di Contatto</h4>
+                        <div class="section-actions">
+                            <button class="edit-btn section-edit-btn" onclick="toggleEditSection('contact-info')">Modifica</button>
+                            <button class="save-btn section-save-btn" onclick="saveSection('contact-info')" style="display: none;">Salva</button>
+                        </div>
+                    </div>
+                    
+                    <div class="info-row" data-field="indirizzo">
+                        <span class="info-label">Indirizzo:</span>
+                        <input type="text" class="input-field" placeholder="Inserisci il tuo indirizzo">
+                    </div>
+                    
+                    <div class="info-row" data-field="telefono">
+                        <span class="info-label">Numero di Telefono:</span>
+                        <input type="tel" class="input-field" placeholder="Inserisci il tuo numero di telefono">
+                    </div>
+                    
+                    <div class="info-row" data-field="provenienza">
+                        <span class="info-label">Provenienza:</span>
+                        <input type="text" class="input-field" placeholder="Inserisci la tua provenienza">
+                    </div>
+                </div>
+                
+                <!-- Sezione azioni account -->
+                <div class="info-section">
+                    <h4>Gestione Account</h4>
+                    
+                    <div class="profile-actions">
+                        <button class="action-button logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Log out
+                        </button>
+                        
+                        <button class="action-button delete-account-btn">
+                            <i class="fas fa-trash-alt"></i>
+                            Elimina account
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="profile-info">
-            <table class="table table-hover">
-                <tr>
-                    <td>Nome:</td>
-                </tr>
-                <tr>
-                    <td>Cognome:</td>
-                </tr>
-                <tr>
-                    <td>Email:</td>
-                </tr>
-            </table>
-                <tr>
-                    <button>Modifica password</button>
-                </tr>
-            <table>
-                <tr>
-                    <td>Indirizzo:</td>
-                </tr>
-                <tr>
-                    <td>Numero di Telefono:</td>
-                </tr>
-                <tr>
-                    <td>Provenienza:</td>
-                </tr>
-            </table>
-            <table>
-                <tr>
-                    <button>Log out</button>
-                </tr>
-            </table>
-            <table>
-                <tr>
-                    <button>Elimina account</button>
-                </tr>
-            </table>
         </div>
     </div>
 
     <div class="menu-bar">
-        <button class="menu-button active" id="homeButton" data-action="home">
+        <button class="menu-button" id="homeButton" data-action="home">
             <i class="fas fa-home"></i>
             <span>Home</span>
         </button>

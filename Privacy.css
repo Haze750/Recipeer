@@ -1,163 +1,446 @@
-userSpace.css
-/*-----------------------------------------------------------------------------------------------------------------
-fotnt ripiciolito e spaziatura ridotta per adattare meglio i dati al layout, mantenendo un aspetto pulito e leggibile.
-------------------------------------------------------------------------------------------------------------------*/ 
+/*--------------------------------------------------------------------------------------------------------------------------------------
+Style specifico per userSpace.html
+--------------------------------------------------------------------------------------------------------------------------------------*/
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
 .profile-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     background-color: #fff;
-    padding: 14px 18px 12px;
-    border-radius: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+    padding: 10px;
     width: 100%;
-    max-height: 290px;
-    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    max-height: calc(100vh - 180px);
 }
 
 .profile-header {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 8px;
+    gap: 10px;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
     flex-shrink: 0;
 }
 
 .profile-circle {
-    width: 52px;
-    height: 52px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     background-color: #4ecdc4;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 3rem;
     color: white;
-    font-size: 16px;
     font-weight: bold;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
     flex-shrink: 0;
+    aspect-ratio: 1/1; /* Garantisce che rimanga rotondo */
 }
 
 .subscription-badge {
-    background-color: #f8f9fa;
-    padding: 6px 10px;
-    border-radius: 5px;
     text-align: center;
+    background-color: #f5f5f5;
+    padding: 6px 10px;
+    border-radius: 10px;
 }
 
 .subscription-badge h3 {
-    color: #ffd700;
-    margin-bottom: 3px;
-    font-size: 9px;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    font-style: italic;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 3px;
+    font-weight: 400;
 }
-        
-.subscription-badge button {
-    background-color: #3db8af;
-    color: white;
+
+.premium-button {
+    padding: 10px 25px;
+    border-radius: 25px;
     border: none;
-    padding: 3px 12px;
-    border-radius: 6px;
+    background: linear-gradient(135deg, #ffd700, #ff9800);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
     cursor: pointer;
-    font-size: 11px;
-    font-style: italic;
-    width: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
+}
+
+.premium-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(255, 152, 0, 0.4);
+}
+
+.profile-info {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-section {
     margin-bottom: 0;
-    margin-top: 0;
+    flex-shrink: 0;
+}
+
+.section-title-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.info-section h4 {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0;
+    font-weight: 500;
+}
+
+.section-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.section-edit-btn, .section-save-btn {
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: none;
+    background-color: #4ecdc4;
+    color: white;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.section-save-btn {
+    background-color: #ff6b6b;
+}
+
+.section-edit-btn:hover, .section-save-btn:hover {
+    transform: translateY(-2px);
+}
+
+.section-edit-btn:hover {
+    background-color: #3db8af;
+}
+
+.section-save-btn:hover {
+    background-color: #ff5252;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.info-section.editing .info-row {
+    background-color: #e8f4fc;
+}
+
+.info-label {
+    min-width: 150px;
+    font-weight: 500;
+    color: #555;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.input-field {
+    flex: 1;
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background-color: white;
+    min-width: 0;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #4ecdc4;
+    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+}
+
+.input-field:read-only {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.action-button {
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.logout-btn {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+.logout-btn:hover {
+    background-color: #ff5252;
+    transform: translateY(-2px);
+}
+
+.delete-account-btn {
+    background-color: #f5f5f5;
+    color: #ff6b6b;
+    border: 2px solid #ff6b6b;
+}
+
+.delete-account-btn:hover {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+.edit-password-btn {
+    background-color: #4ecdc4;
+    color: white;
+}
+
+.edit-password-btn:hover {
+    background-color: #3db8af;
+    transform: translateY(-2px);
+}
+
+/* Button settings nella sezione header */
+.settings-button {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background-color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #555;
+    cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-.subscription-badge button:hover {
-    background-color: #ff6b6b;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(255, 107, 107, 0.2);
-}
-
-.profile-info { 
-    width: 100%;
-}
-
-.profile-info table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 3px;
-}
-.profile-info td {
-    padding: 1px 2px;
-    border-bottom: 1px solid #e0e0e0;
-    color: #555;
-    font-weight: 500;
-    font-size: 10.5px;
-}
-.profile-info td:first-child { 
-    color: #888; 
-    font-weight: 600; 
-    width: 90px; 
-}
-
-.profile-info tr:last-child td { 
-    border-bottom: none; 
-}
-
-.profile-info .btn-row { 
-    margin: 3px 0; 
-}
-
-.profile-info button {
-    background-color: #ff6b6b;
+.settings-button:hover {
+    background-color: #4ecdc4;
     color: white;
-    border: none;
-    padding: 4px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 10.5px;
-    transition: all 0.3s ease;
-    width: 100%;
-    margin-bottom: 0;
-    margin-top: 0;
-}
-
-.profile-info button:hover {
-    background-color: #3db8af;
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(78, 205, 196, 0.2);
 }
 
-.profile-info button:active { 
-    transform: translateY(-1px); 
+/* Adattamento per dispositivi mobili */
+@media (max-width: 768px) {
+    .user-space-body {
+        padding-bottom: 70px;
+    }
+    
+    .main-content {
+        padding: 10px;
+    }
+    
+    .profile-container {
+        padding: 15px;
+        margin: 0;
+        max-height: calc(100vh - 160px);
+        border-radius: 10px;
+    }
+    
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .profile-circle {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+    }
+    
+    .subscription-badge h3 {
+        font-size: 1.1rem;
+    }
+    
+    .premium-button {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .profile-info {
+        gap: 15px;
+        overflow-y: auto;
+    }
+    
+    .section-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .section-actions {
+        align-self: flex-end;
+    }
+    
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px;
+        margin-bottom: 10px;
+    }
+    
+    .info-label {
+        min-width: auto;
+        width: 100%;
+        font-size: 0.9rem;
+    }
+    
+    .input-field {
+        width: 100%;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .action-button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .profile-info::-webkit-scrollbar {
+        width: 4px;
+    }
 }
 
-/* Stile per il pulsante Premium come link */
-.subscription-badge .btn-premium {
-    display: inline-block;
-    background-color: #3db8af;
-    color: white;
-    border: none;
-    padding: 3px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 11px;
-    font-style: italic;
-    text-decoration: none; /* Rimuove la sottolineatura del link */
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
+@media (max-width: 480px) {
+    .main-content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+    }
 
-.subscription-badge .btn-premium:hover {
-    background-color: #ff6b6b;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(255, 107, 107, 0.2);
+    .profile-container {
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        border-radius: 15px;
+        padding: 10px;
+        width: 100%;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        max-height: calc(100vh - 180px);
+    }
+
+    .profile-header {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 3px;
+    }
+
+    .profile-circle {
+        width: 60px;
+        height: 60px;
+        font-size: 1.6rem;
+        aspect-ratio: 1/1;
+    }
+
+    .subscription-badge {
+        width: 160px;
+        height: 65px;
+    }
+
+    .subscription-badge h3 {
+        font-size: 12px;
+    }
+
+    .premium-button {
+        padding: 10px 20px;
+        border-radius: 20px;
+        width: 125px;
+        height: 35px;
+        border: none;
+        background: linear-gradient(135deg, #ffd700, #ff9800);
+        color: white;
+        font-weight: 600;
+        font-size: 15px;
+    }
+    
+    .section-title-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    .info-section h4 {
+        font-size: 1.1rem;
+    }
+    
+    .section-edit-btn, .section-save-btn {
+        padding: 4px;
+        font-size: 0.85rem;
+    }
+    
+    .info-row {
+        padding: 5px;
+    }
+    
+    .action-button {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .main-content {
+        padding: 8px;
+    }
 }
 
 
 /*---------------------------------------------------------------------------------------------------------------------
 style specifico per abbonamenti.html
 -----------------------------------------------------------------------------------------------------------------------*/
-
-
 .logo {
     font-size: 2.5rem;
     font-weight: 550;
@@ -730,5 +1013,221 @@ style specifico per abbonamenti.html
         left: 20px;
         padding: 10px 20px;
         font-size: 0.9rem;
+    }
+}
+
+
+/*----------------------------------------------------------------------------------
+Style specifico per Impostazioni
+-----------------------------------------------------------------------------------*/
+.settings-container {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px; /* Spazio minimo tra le righe come in foto */
+}
+
+.settings-row, .settings-accordion summary {
+    background: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.settings-label, .settings-accordion summary span {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Toggle Switch Style */
+.switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+    position: absolute; cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s; border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute; content: "";
+    height: 18px; width: 18px;
+    left: 4px; bottom: 4px;
+    background-color: white;
+    transition: .4s; border-radius: 50%;
+}
+
+input:checked + .slider { background-color: #ff8a80; } /* Colore rosso/rosa della foto */
+input:checked + .slider:before { transform: translateX(24px); }
+
+/* Accordion Style */
+.settings-accordion {
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.settings-accordion summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+.settings-accordion summary::-webkit-details-marker { display: none; }
+
+/* Animazione freccia accordion */
+.settings-accordion summary i {
+    transition: transform 0.3s ease;
+}
+
+/* Ruota la freccia di 180° quando l'accordion è aperto */
+.settings-accordion[open] summary i {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    background-color: white;
+    padding: 10px 20px;
+}
+
+.accordion-content p {
+    padding: 12px 0;
+    border-bottom: 1px solid #fafafa;
+    color: #666;
+    font-size: 1rem;
+}
+
+/* Colori dinamici all'apertura (come da foto) */
+.settings-accordion[open] summary { color: white; }
+
+.blue-theme[open] summary { background-color: #42a5f5; }
+.green-theme[open] summary { background-color: #4caf50; }
+.orange-theme[open] summary { background-color: #ff8c42; }
+
+/* Bottone Salva */
+.save-settings-btn {
+    margin-top: 30px;
+    background-color: black;
+    color: white;
+    padding: 18px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.save-settings-btn:active {
+    transform: scale(0.98);
+}
+
+/* responsive */
+@media (max-width: 767px) {
+    .settings-container {
+        max-width: 100%;
+        margin: 0;
+        gap: 1px;
+    }
+    
+    .settings-row,
+    .settings-accordion summary {
+        padding: 16px 15px;
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .settings-label,
+    .settings-accordion summary span {
+        font-size: 0.95rem;
+        font-weight: 500;
+        flex: 1;
+    }
+    
+    .switch {
+        width: 45px;
+        height: 24px;
+    }
+    
+    .slider:before {
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+    }
+    
+    input:checked + .slider:before {
+        transform: translateX(21px);
+    }
+    
+    .settings-accordion summary i {
+        font-size: 0.9rem;
+        margin-left: 10px;
+    }
+    
+    .accordion-content {
+        padding: 8px 15px;
+    }
+    
+    .accordion-content p {
+        padding: 10px 0;
+        font-size: 0.9rem;
+    }
+
+    .save-settings-btn {
+        margin-top: 25px;
+        padding: 16px;
+        font-size: 1rem;
+        border-radius: 10px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {  
+    .settings-row,
+    .settings-accordion summary {
+        padding: 14px 12px;
+    }
+    
+    .settings-label,
+    .settings-accordion summary span {
+        font-size: 0.9rem;
+    }
+    
+    .switch {
+        width: 40px;
+        height: 22px;
+    }
+    
+    .slider:before {
+        height: 14px;
+        width: 14px;
+    }
+    
+    input:checked + .slider:before {
+        transform: translateX(18px);
+    }
+    
+    .accordion-content {
+        padding: 6px 12px;
+    }
+    
+    .accordion-content p {
+        padding: 8px 0;
+        font-size: 0.85rem;
+    }
+    
+    .save-settings-btn {
+        margin-top: 20px;
+        padding: 14px;
+        font-size: 0.95rem;
     }
 }
