@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipeer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="userPrivacy/Privacy.css">
+</head>
+
+<body>
+    <div class="header">
+        <button class="user-button" id="userButton">
+            <i class="fas fa-user"></i>
+        </button>
+        <h1 class="logo">Recipeer</h1>
+    </div>
+
+
+    <div class="main-content">
+        <div class="main-content">
+    <div class="settings-container">
+        <div class="settings-row">
+            <span class="settings-label">Dark Mode</span>
+            <label class="switch">
+                <input type="checkbox" id="darkModeToggle">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <div class="settings-row">
+            <span class="settings-label">Notificazione</span>
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <details class="settings-accordion blue-theme">
+            <summary>
+                <span>Grandezza Testo</span>
+                <i class="fas fa-chevron-down"></i>
+            </summary>
+            <div class="accordion-content">
+                <p>Grande</p>
+                <p>Medio</p>
+                <p>Piccolo</p>
+            </div>
+        </details>
+
+        <details class="settings-accordion green-theme">
+            <summary>
+                <span>Supporto</span>
+                <i class="fas fa-chevron-down"></i>
+            </summary>
+            <div class="accordion-content">
+                <p>Aiuto</p>
+                <p>FAQ</p>
+                <p>Report bug</p>
+                <p>Centro Assistenza</p>
+            </div>
+        </details>
+
+        <details class="settings-accordion orange-theme">
+            <summary>
+                <span>Informazione</span>
+                <i class="fas fa-chevron-down"></i>
+            </summary>
+            <div class="accordion-content">
+                <p>Termini e Condizioni</p>
+                <p>Politica di Privacy</p>
+                <p>Licenze</p>
+            </div>
+        </details>
+
+        <button class="save-settings-btn">Salva</button>
+    </div>
+</div>
+    </div>
+
+
+    <div class="menu-bar">
+        <button class="menu-button active" id="homeButton" data-action="home">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </button>
+        <button class="menu-button" id="bookButton" data-action="book">
+            <i class="fas fa-book"></i>
+            <span>Ricettario</span>
+        </button>
+        <button class="menu-button" id="cameraButton" data-action="camera">
+            <i class="fas fa-camera"></i>
+            <span>Scansione</span>
+        </button>
+        <button class="menu-button" id="heartButton" data-action="heart">
+            <i class="fas fa-heart"></i>
+            <span>Preferiti</span>
+        </button>
+    </div>
+
+    <script src="Script.js"></script>
+</body>
+</html>

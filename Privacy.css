@@ -17,7 +17,7 @@ Style specifico per userSpace.html
     padding: 10px;
     width: 100%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    max-height: calc(100vh - 180px);
+    margin-bottom: 20px;
 }
 
 .profile-header {
@@ -85,7 +85,6 @@ Style specifico per userSpace.html
 
 .profile-info {
     flex: 1;
-    overflow-y: auto;
     padding-right: 5px;
     display: flex;
     flex-direction: column;
@@ -110,40 +109,6 @@ Style specifico per userSpace.html
     color: #333;
     margin: 0;
     font-weight: 500;
-}
-
-.section-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.section-edit-btn, .section-save-btn {
-    padding: 8px 15px;
-    border-radius: 8px;
-    border: none;
-    background-color: #4ecdc4;
-    color: white;
-    font-weight: 500;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.section-save-btn {
-    background-color: #ff6b6b;
-}
-
-.section-edit-btn:hover, .section-save-btn:hover {
-    transform: translateY(-2px);
-}
-
-.section-edit-btn:hover {
-    background-color: #3db8af;
-}
-
-.section-save-btn:hover {
-    background-color: #ff5252;
 }
 
 .info-row {
@@ -179,12 +144,6 @@ Style specifico per userSpace.html
     transition: all 0.3s ease;
     background-color: white;
     min-width: 0;
-}
-
-.input-field:focus {
-    outline: none;
-    border-color: #4ecdc4;
-    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
 }
 
 .input-field:read-only {
@@ -281,7 +240,6 @@ Style specifico per userSpace.html
     .profile-container {
         padding: 15px;
         margin: 0;
-        max-height: calc(100vh - 160px);
         border-radius: 10px;
     }
     
@@ -309,7 +267,6 @@ Style specifico per userSpace.html
     
     .profile-info {
         gap: 15px;
-        overflow-y: auto;
     }
     
     .section-title-row {
@@ -347,9 +304,6 @@ Style specifico per userSpace.html
         font-size: 0.9rem;
     }
     
-    .profile-info::-webkit-scrollbar {
-        width: 4px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -369,7 +323,6 @@ Style specifico per userSpace.html
         padding: 10px;
         width: 100%;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        max-height: calc(100vh - 180px);
         margin-bottom: 20px;
     }
 
@@ -1231,5 +1184,4 @@ input:checked + .slider:before { transform: translateX(24px); }
         padding: 14px;
         font-size: 0.95rem;
     }
-
 }

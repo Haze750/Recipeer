@@ -20,26 +20,18 @@ document.querySelectorAll('.menu-button').forEach(button => {
         }, 400);
         
 
-        // Gestione reindirizzamento per il pulsante Ricettario
+        // Gestione reindirizzamento per le pagine menu
         if (this.id === 'homeButton') {
-            setTimeout(() => {
                 window.location.href = 'Home.html';
-            }, 300);
         }
         if (this.id === 'bookButton') {
-            setTimeout(() => {
-                window.location.href = 'Riccetario.html';
-            }, 300);
+                window.location.href = 'Ricettario.html';
         }
         if (this.id === 'cameraButton') {
-            setTimeout(() => {
                 window.location.href = 'Scansione.html';
-            }, 300);
         }
         if (this.id === 'heartButton') {
-            setTimeout(() => {
                 window.location.href = 'Preferiti.html';
-            }, 300);
         }
         
         // Al momento non eseguiamo altre azioni per gli altri pulsanti
@@ -48,13 +40,17 @@ document.querySelectorAll('.menu-button').forEach(button => {
 });
 
 // Effetto di rimbalzo ridotto per il pulsante utente
-document.getElementById('userButton').addEventListener('click', function() {
-    this.classList.add('bounce');
-    setTimeout(() => {
-        window.location.href = "userSpace.html";
-    }, 400);
-    console.log('Profilo utente');
+document.addEventListener('DOMContentLoaded', function() {
+    const userBtn = document.getElementById('userButton');
+    if (userBtn) {
+        userBtn.addEventListener('click', function() {
+            this.classList.add('bounce');
+            window.location.href = 'userSpace.php';
+            console.log('Profilo utente');
+        });
+    }
 });
+
 
 /*-----------------------------------------------------------------------------------------------------------------
 funzione per gestire il pulsante add to favorite
@@ -73,7 +69,6 @@ function saveFavorites(favorites) {
 }
 
 // Funzione per aggiungere/rimuovere dai preferiti
-// Modifica la funzione toggleFavorite per includere il tipo di piatto
 function toggleFavorite(recipeId, dishType) {
     const favorites = getFavorites();
     
@@ -454,9 +449,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const homeButton = document.getElementById('homeButton');
         if (homeButton) {
             homeButton.addEventListener('click', function() {
-                setTimeout(() => {
                     window.location.href = 'Home.html';
-                }, 300);
             });
         }
     }
@@ -467,6 +460,9 @@ document.addEventListener('DOMContentLoaded', function() {
 js specifico per scansiona.html
 -------------------------------------------------------------------------------------------------------------------*/
 document.addEventListener('DOMContentLoaded', function() {
+    if (!document.getElementById('uploadBtn')) {
+        return; // Esci se non siamo nella pagina Scansione
+    }    
     console.log('Pagina Scansione caricata');
 
     let html5QrCode;
@@ -581,38 +577,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // Funzione per avviare la scansione (automatica)
     function avviaScansione() {
         if (scansioneAttiva) return;
+
+        // Prova ad avviare con facingMode: "environment" (fotocamera posteriore)
+        html5QrCode.start(
+            { facingMode: "environment" },
+            config,
+            onScanSuccess,
+            onScanFailure
+        ).then(() => {
+            scansioneAttiva = true;
+            scansioneStatus.style.display = 'flex';
+            console.log('Scansione avviata con fotocamera posteriore');
+        }).catch(fallbackErr => {
+        console.error("Errore nel fallback:", fallbackErr);
         
-        Html5Qrcode.getCameras().then(devices => {
-            if (devices && devices.length) {
-                // Usa la fotocamera posteriore se disponibile
-                let cameraId = devices[0].id;
-                const backCamera = devices.find(device => 
-                    device.label.toLowerCase().includes('back') || 
-                    device.label.toLowerCase().includes('rear'));
-                
-                if (backCamera) {
-                    cameraId = backCamera.id;
-                }
-                
-                html5QrCode.start(
-                    cameraId,
-                    config,
-                    onScanSuccess,
-                    onScanFailure
-                ).then(() => {
-                    scansioneAttiva = true;
-                    scansioneStatus.style.display = 'flex';
-                    console.log('Scansione avviata automaticamente');
-                }).catch(err => {
-                    console.error("Errore nell'avviare la scansione:", err);
-                    alert("Impossibile accedere alla fotocamera. Controlla i permessi.");
-                });
-            } else {
-                alert("Nessuna fotocamera trovata sul dispositivo.");
+            // Mostra un messaggio all'utente nell'area di scansione
+            const readerDiv = document.getElementById('reader');
+            if (readerDiv) {
+                readerDiv.innerHTML = `<div style="padding:20px; text-align:center; color:#666;">
+                    <i class="fas fa-camera-slash" style="font-size:2rem; margin-bottom:10px;"></i>
+                    <p>Fotocamera non disponibile.<br>Controlla i permessi o utilizza il caricamento immagini.</p>
+                </div>`;
             }
-        }).catch(err => {
-            console.error("Errore nel recuperare le fotocamere:", err);
-            alert("Errore nell'accesso alla fotocamera.");
+            // alert("Impossibile accedere alla fotocamera. Controlla i permessi e riprova.");
         });
     }
 
@@ -643,7 +630,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Callback per errore di scansione
     function onScanFailure(error) {
-        // Gli errori comuni sono ignorati (es: nessun codice trovato)
+        // Ignora l'errore comune "No MultiFormat Readers" per non riempire la console
+        const errorStr = error ? error.toString() : '';
+        if (errorStr.includes('No MultiFormat Readers')) {
+            return;
+        }
         console.warn(`Errore scansione: ${error}`);
     }
 
@@ -691,9 +682,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (scansioneAttiva) {
                 fermaScansione();
             }
-            setTimeout(() => {
-                window.location.href = 'Home.html';
-            }, 300);
+            window.location.href = 'Home.html';
         });
     }
 
@@ -705,9 +694,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (scansioneAttiva) {
                 fermaScansione();
             }
-            setTimeout(() => {
-                window.location.href = 'Riccetario.html';
-            }, 300);
+                window.location.href = 'Ricettario.html';
         });
     }
 
@@ -727,13 +714,22 @@ document.addEventListener('DOMContentLoaded', function() {
 js specifico per Preferiti.html
 ----------------------------------------------------------------------------------------------------------------------------*/
 document.addEventListener('DOMContentLoaded', function() {
+    // GUARDIA: se l'elemento #preferitiContenuto non esiste, non siamo nella pagina Preferiti
+    if (!document.getElementById('preferitiContenuto')) {
+        console.log('Non nella pagina Preferiti, esco');
+        return;
+    }
+    
     console.log('Pagina Preferiti caricata');
     
     // Funzione per caricare le ricette preferite
     function caricaPreferiti() {
+        const preferitiContenuto = document.getElementById('preferitiContenuto');
+        // Doppia guardia: se per qualche motivo l'elemento non esiste, non fare nulla
+        if (!preferitiContenuto) return;
+
         const favoritesKey = 'recipeer_favorites';
         const favorites = JSON.parse(localStorage.getItem(favoritesKey) || '[]');
-        const preferitiContenuto = document.getElementById('preferitiContenuto');
         
         if (favorites.length === 0) {
             // Mostra messaggio "nessuna ricetta preferita"
@@ -889,9 +885,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const homeButton = document.getElementById('homeButton');
     if (homeButton) {
         homeButton.addEventListener('click', function() {
-            setTimeout(() => {
                 window.location.href = 'Home.html';
-            }, 300);
         });
     }
     
@@ -899,9 +893,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const bookButton = document.getElementById('bookButton');
     if (bookButton) {
         bookButton.addEventListener('click', function() {
-            setTimeout(() => {
-                window.location.href = 'Riccetario.html';
-            }, 300);
+                window.location.href = 'Ricettario.html';
         });
     }
     
@@ -909,9 +901,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const cameraButton = document.getElementById('cameraButton');
     if (cameraButton) {
         cameraButton.addEventListener('click', function() {
-            setTimeout(() => {
                 window.location.href = 'Scansione.html';
-            }, 300);
         });
     }
     
@@ -923,169 +913,176 @@ document.addEventListener('DOMContentLoaded', function() {
             caricaPreferiti();
         });
     }
-
 });
 
 
 /*------------------------------------------------------------------------------------------------------------------
-js specifico per userSpace.html
+js specifico per userSpace.php
 -------------------------------------------------------------------------------------------------------------------*/
-// JavaScript per la gestione delle sezioni editabili
-function toggleEditSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    const inputs = section.querySelectorAll('.input-field');
-    const editBtn = section.querySelector('.section-edit-btn');
-    const saveBtn = section.querySelector('.section-save-btn');
-    
-    // Attiva modalità modifica per tutti i campi della sezione
-    section.classList.add('editing');
-    inputs.forEach(input => {
-        input.removeAttribute('readonly');
-        input.focus();
-    });
-    
-    // Mostra pulsante salva, nascondi modifica
-    editBtn.style.display = 'none';
-    saveBtn.style.display = 'block';
-}
-
-function saveSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    const inputs = section.querySelectorAll('.input-field');
-    const editBtn = section.querySelector('.section-edit-btn');
-    const saveBtn = section.querySelector('.section-save-btn');
-    
-    // Salva tutti i valori della sezione
-    const data = {};
-    inputs.forEach(input => {
-        const fieldName = input.closest('.info-row').getAttribute('data-field');
-        data[fieldName] = input.value;
-        input.setAttribute('readonly', true);
-    });
-    
-    console.log(`Sezione ${sectionId} salvata:`, data);
-    
-    // Disabilita modalità modifica
-    section.classList.remove('editing');
-    
-    // Mostra pulsante modifica, nascondi salva
-    editBtn.style.display = 'block';
-    saveBtn.style.display = 'none';
-    
-    // Mostra messaggio di conferma
-    alert('Modifiche salvate!');
-}
-
-// Inizializza i campi come readonly
 document.addEventListener('DOMContentLoaded', function() {
+    // GUARDIA: se il pulsante logout non esiste, non siamo nella pagina userSpace
+    if (!document.querySelector('.logout-btn')) {
+        console.log('Non nella pagina userSpace, esco');
+        return;
+    }
+
+    // I campi sono già readonly in HTML, ma assicuriamolo comunque
     const inputs = document.querySelectorAll('.input-field');
     inputs.forEach(input => {
         input.setAttribute('readonly', true);
     });
     
-    // Gestione logout
-    document.querySelector('.logout-btn').addEventListener('click', function() {
-        if (confirm('Sei sicuro di voler uscire?')) {
-            console.log('Utente disconnesso');
-            // Qui reindirizzeresti alla pagina di login
-            // window.location.href = 'login.html';
-        }
-    });
+    // Gestione logout via AJAX
+    const logoutBtn = document.querySelector('.logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Sei sicuro di voler uscire?')) {
+                fetch('logout.php', { method: 'POST' })
+                    .then(() => window.location.href = 'Login.php')
+                    .catch(() => window.location.href = 'Login.php');
+            }
+        });
+    }
     
     // Gestione elimina account
-    document.querySelector('.delete-account-btn').addEventListener('click', function() {
-        if (confirm('ATTENZIONE: Questa azione è irreversibile. Sei sicuro di voler eliminare il tuo account?')) {
-            console.log('Account eliminato');
-            // Qui invieresti la richiesta al server per eliminare l'account
-            alert('Account eliminato con successo');
-        }
-    });
-    
-    // Gestione modifica password
-    document.querySelector('.edit-password-btn').addEventListener('click', function() {
-        const currentPassword = prompt('Inserisci la password attuale:');
-        if (currentPassword) {
-            const newPassword = prompt('Inserisci la nuova password:');
-            const confirmPassword = prompt('Conferma la nuova password:');
-            
-            if (newPassword && newPassword === confirmPassword) {
-                console.log('Password modificata');
-                alert('Password modificata con successo!');
-            } else {
-                alert('Le password non corrispondono o sono vuote');
+    const deleteBtn = document.querySelector('.delete-account-btn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('ATTENZIONE: Questa azione è irreversibile. Sei sicuro di voler eliminare il tuo account?')) {
+                fetch('delete_account.php', { method: 'POST' })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Account eliminato con successo');
+                            window.location.href = 'Login.php';
+                        } else {
+                            alert('Errore: ' + data.message);
+                        }
+                    })
+                    .catch(() => alert('Errore di comunicazione con il server'));
             }
-        }
-    });
+        });
+    }
+
+    // Gestione modifica password – apre una modale o reindirizza a pagina dedicata
+    const editPasswordBtn = document.querySelector('.edit-password-btn');
+    if (editPasswordBtn) {
+        editPasswordBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // piano n°1
+            window.location.href = 'change_password.php';
+            
+            /* PIANO DI RISERVA
+            const currentPassword = prompt('Inserisci la password attuale:');
+            if (!currentPassword) return;
+            const newPassword = prompt('Inserisci la nuova password:');
+            if (!newPassword) return;
+            const confirmPassword = prompt('Conferma la nuova password:');
+            if (newPassword !== confirmPassword) {
+                alert('Le password non corrispondono');
+                return;
+            }
+            fetch('change_password.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `current=${encodeURIComponent(currentPassword)}&new=${encodeURIComponent(newPassword)}`
+            })
+            .then(res => res.json())
+            .then(data => alert(data.message))
+            .catch(() => alert('Errore'));
+            */
+        });
+    }
 });
 
 
 /*------------------------------------------------------------------------------------------------------------------
 js specifico per abbonamenti.html
 -------------------------------------------------------------------------------------------------------------------*/
-let currentIndex = 0;
-// Recupera tutti gli elementi necessari dal DOM (HTML)
-const cards = document.querySelectorAll('.card'); 
-const container = document.getElementById('cardsContainer'); 
-const prevBtn = document.getElementById('prevBtn'); 
-const nextBtn = document.getElementById('nextBtn'); 
-const dots = document.querySelectorAll('.dot'); 
-const totalCards = cards.length; 
-
-// Sposta fisicamente il contenitore e aggiorna i pallini
-function updateCarousel() {
-    const cardWidth = cards[0].offsetWidth; // Misura la larghezza di una card
-    const gap = 30; // Definisce lo spazio tra le card
-    
-    // Calcola lo spostamento: (indice attuale * larghezza totale occupata)
-    const offset = -(currentIndex * (cardWidth + gap));
-    
-    // Applica il movimento fluido tramite CSS
-    container.style.transform = `translateX(${offset}px)`;
-
-    // Cicla sui pallini per illuminare solo quello corrispondente alla card attiva
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentIndex);
-    });
-}
-
-// Bottone sinistro, torna indietro o ricomincia dalla fine
-prevBtn.addEventListener('click', () => {
-    currentIndex--;
-    if (currentIndex < 0) {
-        currentIndex = totalCards - 1; // Effetto "loop" all'indietro
+document.addEventListener('DOMContentLoaded', function() {
+    // GUARDIA: se il container delle card non esiste, non siamo nella pagina Abbonamenti
+    const container = document.getElementById('cardsContainer');
+    if (!container) {
+        console.log('Non nella pagina Abbonamenti, esco');
+        return;
     }
-    updateCarousel();
-});
 
-// Bottone destro, va avanti o ricomincia dall'inizio
-nextBtn.addEventListener('click', () => {
-    currentIndex++;
-    if (currentIndex >= totalCards) {
-        currentIndex = 0; // Effetto "loop" in avanti
+    let currentIndex = 0;
+    const cards = document.querySelectorAll('.card'); 
+    const prevBtn = document.getElementById('prevBtn'); 
+    const nextBtn = document.getElementById('nextBtn'); 
+    const dots = document.querySelectorAll('.dot'); 
+    const totalCards = cards.length; 
+
+    if (totalCards === 0) return; // nessuna card, esci
+
+    // Sposta fisicamente il contenitore e aggiorna i pallini
+    function updateCarousel() {
+        const cardWidth = cards[0].offsetWidth; // Misura la larghezza di una card
+        const gap = 30; // Definisce lo spazio tra le card
+        
+        // Calcola lo spostamento: (indice attuale * larghezza totale occupata)
+        const offset = -(currentIndex * (cardWidth + gap));
+        
+        // Applica il movimento fluido tramite CSS
+        container.style.transform = `translateX(${offset}px)`;
+
+        // Cicla sui pallini per illuminare solo quello corrispondente alla card attiva
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
     }
-    updateCarousel();
-});
 
-// Permette il salto diretto a una specifica card
-dots.forEach((dot) => {
-    dot.addEventListener('click', () => {
-        // Legge l'indice dal dataset HTML e lo imposta come attuale
-        currentIndex = parseInt(dot.dataset.index);
-        updateCarousel();
+    // Bottone sinistro, torna indietro o ricomincia dalla fine
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            currentIndex--;
+            if (currentIndex < 0) {
+                currentIndex = totalCards - 1; // Effetto "loop" all'indietro
+            }
+            updateCarousel();
+        });
+    }
+
+    // Bottone destro, va avanti o ricomincia dall'inizio
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            currentIndex++;
+            if (currentIndex >= totalCards) {
+                currentIndex = 0; // Effetto "loop" in avanti
+            }
+            updateCarousel();
+        });
+    }
+
+    // Permette il salto diretto a una specifica card
+    dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+            // Legge l'indice dal dataset HTML e lo imposta come attuale
+            currentIndex = parseInt(dot.dataset.index);
+            updateCarousel();
+        });
     });
+
+    // Esecuzione iniziale per impostare lo stato corretto all'avvio
+    updateCarousel();
+
+    // Ricalcola larghezze e posizioni se l'utente ridimensiona il browser
+    window.addEventListener('resize', updateCarousel);
 });
-
-// Esecuzione iniziale per impostare lo stato corretto all'avvio
-updateCarousel();
-
-// Ricalcola larghezze e posizioni se l'utente ridimensiona il browser
-window.addEventListener('resize', updateCarousel);
 
 
 /*--------------------------------------------------------------------------------------------------------
 js specifico per impostazioni.html
 ---------------------------------------------------------------------------------------------------------*/
 document.addEventListener('DOMContentLoaded', () => {
+    // GUARDIA: se il toggle dark mode non esiste, non siamo nella pagina Impostazioni
+    if (!document.getElementById('darkModeToggle')) {
+        console.log('Non nella pagina Impostazioni, esco');
+        return;
+    }
     
     const darkModeToggle = document.getElementById('darkModeToggle');
     const notificationToggle = document.getElementById('notificationToggle');

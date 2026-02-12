@@ -1,7 +1,6 @@
 /*----------------------------------------------------------------------------------
 style generico
 -----------------------------------------------------------------------------------*/
-
 * {
     margin: 0;
     padding: 0;
@@ -68,14 +67,13 @@ body {
 }
 
 .daily-recipe-section {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
 }
 
 .section-title {
@@ -473,6 +471,14 @@ style specifico per scansiona
 #reader {
     width: 100%;
     height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+#reader video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* riempie lo spazio senza distorsioni */
 }
 
 .scansione-istruzioni {
@@ -565,6 +571,7 @@ style specifico per scansiona
 
 /* Indicatore scansione attiva */
 .scansione-attiva {
+    z-index: 2;
     position: absolute;
     top: 20px;
     left: 50%;
@@ -661,6 +668,18 @@ style specifico per scansiona
 }
 
 @media (max-width: 480px) {
+    #reader {
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    #reader video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;  
+    }
+
     .daily-recipe-section{
         margin-bottom: 10px;
     }
@@ -953,11 +972,11 @@ Style specifico per Preferiti.html
     .preferiti-content {
         flex-grow: 1;
         overflow: hidden;
-        min-width: 0;  /* ← importante per evitare overflow */
+        min-width: 0;  
     }
     
     .preferiti-title, .preferiti-info {
-        max-width: calc(100vw - 140px);  /* ← calcola larghezza massima */
+        max-width: calc(100vw - 140px);  
         overflow: hidden;
         text-overflow: ellipsis;
     }
